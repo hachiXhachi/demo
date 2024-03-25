@@ -19,12 +19,13 @@ import org.springframework.security.authentication.AuthenticationProvider;
 public class SecurityConfig {
     @Autowired
     private MyUserDetailsService userService;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(registry -> {
-                    registry.requestMatchers("/home","/header_files/**","assets/**").permitAll();
+                    registry.requestMatchers("/signup","/header_files/**","assets/**","/create").permitAll();
                     registry.requestMatchers("/admin").hasRole("ADMIN");
                     registry.requestMatchers("/dashboard").hasRole("USER");
                     registry.anyRequest().authenticated();

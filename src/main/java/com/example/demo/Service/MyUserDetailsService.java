@@ -29,4 +29,18 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(username);
         }
     }
+
+    public UserModel save(UserModel user){
+        return userRepository.save(user);
+    }
+
+    public String uname(String username){
+        String checker = userRepository.findUsernameIfExists1(username);
+        if (checker==null){
+            return null;
+        }else {
+            return "exist";
+        }
+
+    }
 }

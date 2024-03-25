@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "user")
 public class UserModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -21,9 +21,6 @@ public class UserModel {
 
     @Column(name="username")
     private String username;
-
-    @Column(name="email")
-    private String email;
 
     @Column(name="password")
     private String password;
