@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "user")
 public class UserModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

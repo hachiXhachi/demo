@@ -1,10 +1,11 @@
 package com.example.demo.Controller;
-
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import com.example.demo.Model.UserModel;
 import com.example.demo.Service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,11 +22,24 @@ public class MainController {
     public String handleIndex(){
         return "dashboard";
     }
-    @GetMapping(value = "/login")
-    public String handleLogin(){
+    @GetMapping(value = {"/","/login"})
+    public String handleLogin(HttpServletRequest request){
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if(authentication instanceof AnonymousAuthenticationToken){
+        return "login";
+    }else{
+        if (authentication.getAuthorities().toString().contains("ROLE_ADMIN")){
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            return "redirect:/admin";
+        }else {
+            return "redirect:/dashboard";
+        }
+    }
+    }
+    @GetMapping(value = "/login?error")
+    public String handleLoginError(){
         return "login";
     }
-
     @GetMapping(value = "/admin")
     public String handleadmin(){
         return "admin_dashboard";
