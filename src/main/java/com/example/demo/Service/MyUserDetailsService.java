@@ -34,12 +34,12 @@ public class MyUserDetailsService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public String uname(String username){
-        String checker = userRepository.findUsernameIfExists1(username);
-        if (checker==null){
-            return null;
+    public UserModel uname(String username){
+        Optional<UserModel> checker = userRepository.findUsernameIfExists1(username);
+        if (checker.isPresent()){
+            return checker.get();
         }else {
-            return "exist";
+            return new UserModel();
         }
 
     }
